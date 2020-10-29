@@ -1,17 +1,39 @@
-import React, { useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import AlertContext from '../../context/alerts/alertContext';
+import AuthContext from '../../context/authentication/authContext';
 
-const SingUp = () => {
+const SingUp = (props) => {
+
+    // Extract alert context values
+    const alertContext = useContext(AlertContext);
+    const { alert, showAlert } = alertContext;
+
+    // Extract sing up context values
+    const authContext = useContext(AuthContext);
+    const { message, authenticated, registerUser } = authContext;
     
     // Define "user" State
     const [ user, saveUser ] = useState({
-        nombre:'',
+        name:'',
         email: '',
         password: '',
-        confirmar: ''
+        confirm: ''
     });
 
-    const { nombre, email, password, confirmar } = user;
+    // In case that an user if auntehticating or registered or trying to register with duplicated user
+    useEffect( () => {
+        if(authenticated) {
+            props.history.push('/projects');
+        }
+
+        if(message) {
+            showAlert(message.msg, message.category)
+        }
+
+    }, [message, authenticated, props.history]);
+
+    const { name, email, password, confirm } = user;
 
     // Save the user input
     const onChange = e => {
@@ -28,25 +50,55 @@ const SingUp = () => {
         e.preventDefault();
 
         // Validate if theres empty fields
+        if(name.trim() === '' ||
+            email.trim() === '' || 
+            password.trim() === '' || 
+            confirm.trim() === '') {
+            showAlert('All the fields are required.', 'alerta-error');
+            return;
+        }
+
+        // Validate password
+        if(password.length < 5) {
+            showAlert('Password must have at least six characters', 'alerta-error');
+            return;
+        }
+ 
+        // Check if the confirm password is the same
+        if(password !== confirm) {
+            showAlert('Password confirmation it\'s not the same', 'alerta-error');
+            return;
+        }
+
+        // Pass the action
+        registerUser({
+            name,
+            email,
+            password
+        })
 
     }
 
     return (
         <div className="form-usuario">
             <div className="contenedor-form sombra-darl">
-                <h1> Obtener una cuenta </h1>
+                <h1> Register account: </h1>
                 <form
                     onSubmit={onSubmit}
                 >
-                    
+                    { alert ? (
+                        <div className={`alerta ${alert.categoria}`} > 
+                            {alert.msg}
+                        </div>
+                    ) : null }
                     <div className="campo-form">
-                        <label htmlFor="nombre"> Nombre </label>
+                        <label htmlFor="name"> Name: </label>
                         <input 
                             type="text"
-                            id="nombre"
-                            name="nombre"
-                            placeholder="Nombre..."
-                            value={nombre}
+                            id="name"
+                            name="name"
+                            placeholder="Name..."
+                            value={name}
                             onChange={onChange}
                         />
                     </div>
@@ -76,13 +128,13 @@ const SingUp = () => {
                     </div>
 
                     <div className="campo-form">
-                        <label htmlFor="confirmar"> Confirmar password </label>
+                        <label htmlFor="confirm"> Confirm password </label>
                         <input 
                             type="password"
-                            id="confirmar"
-                            name="confirmar"
+                            id="confirm"
+                            name="confirm"
                             placeholder="Confirma la password..."
-                            value={confirmar}
+                            value={confirm}
                             onChange={onChange}
                         />
                     </div>

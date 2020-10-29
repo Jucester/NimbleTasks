@@ -1,7 +1,31 @@
-import React, { useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import AlertContext from '../../context/alerts/alertContext';
+import AuthContext from '../../context/authentication/authContext';
 
-const Login = () => {
+const Login = (props) => {
+
+    // Extract alert context values
+    const alertContext = useContext(AlertContext);
+    const { alert, showAlert } = alertContext;
+
+    // Extract sing up context values
+    const authContext = useContext(AuthContext);
+    const { message, authenticated, singIn } = authContext;
+
+
+    // In case that user doesnt exists or password is incorrect
+    useEffect( () => {
+        
+        if(authenticated) {
+            props.history.push('/projects');
+        }
+
+        if(message) {
+            showAlert(message.msg, message.category)
+        }
+
+    }, [message, authenticated, props.history]);
 
     // Define "user" State
     const [ user, saveUser ] = useState({
@@ -26,6 +50,16 @@ const Login = () => {
         e.preventDefault();
 
         // Validate if theres empty fields
+        if(email.trim() === '' || password.trim() === '') {
+            showAlert('All the fields are required.', 'alerta-error');
+            return;
+        }
+
+        // Pass the data to the login (sing in) function in authstate
+        singIn({
+            email,
+            password
+        })
 
     }
 
@@ -35,7 +69,12 @@ const Login = () => {
                 <h1> Iniciar sesión </h1>
                 <form
                     onSubmit={onSubmit}
-                >
+                >   
+                     { alert ? (
+                        <div className={`alerta ${alert.categoria}`} > 
+                            {alert.msg}
+                        </div>
+                    ) : null }
 
                     <div className="campo-form">
                         <label htmlFor="email"> Email </label>
