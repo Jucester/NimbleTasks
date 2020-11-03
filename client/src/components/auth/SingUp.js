@@ -30,7 +30,7 @@ const SingUp = (props) => {
         if(message) {
             showAlert(message.msg, message.category)
         }
-
+        // eslint-disable-next-line
     }, [message, authenticated, props.history]);
 
     const { name, email, password, confirm } = user;

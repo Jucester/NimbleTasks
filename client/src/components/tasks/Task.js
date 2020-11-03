@@ -12,21 +12,21 @@ const Task = ({task}) => {
 
     // get the project tasks
     const taskContext = useContext(TaskContext);
-    const { deleteTask, getTasks, changeStateTask, selectActualTask } = taskContext;
+    const { deleteTask, getTasks, editTask, selectActualTask } = taskContext;
 
     // Function to delete task
     const onClickDelete = id => {
-        deleteTask(id);
+        deleteTask(id, actual._id);
         getTasks(actual.id);
     }
     // Function to change state of task
     const changeState = task => {
-        if(task.estado) {
-            task.estado = false;
+        if(task.state) {
+            task.state = false;
         } else {
-            task.estado = true;
+            task.state = true;
         }
-        changeStateTask(task);
+        editTask(task);
     }
 
     // Save the actual task for edit
@@ -37,9 +37,9 @@ const Task = ({task}) => {
     return (  
 
         <li className="tarea sombra">
-            <p> {task.nombre} </p>
+            <p> {task.name} </p>
             <div className="estado">
-                {  task.estado 
+                {  task.state 
                    ?    (
                         <button 
                             type="button"
@@ -54,7 +54,7 @@ const Task = ({task}) => {
                         className="incompleto"
                         onClick={ () => changeState(task) }
                     > Inomplete </button>
-                     )
+                    )
                 }
             </div>
 
@@ -68,7 +68,7 @@ const Task = ({task}) => {
                 <button 
                     type="button"
                     className="btn btn-secundario"
-                    onClick={() => onClickDelete(task.id)}
+                    onClick={() => onClickDelete(task._id)}
                 > Delete </button>
             </div>
         </li>

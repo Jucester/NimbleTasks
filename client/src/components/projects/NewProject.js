@@ -9,10 +9,10 @@ const NewProject = () => {
 
     // Project State
     const [ project, saveProject ] = useState({
-        nombre: ''
+        name: ''
     });
 
-    const { nombre } = project;
+    const { name } = project;
 
     // Read the input content
     const onChangeProject = e => {
@@ -27,7 +27,7 @@ const NewProject = () => {
         e.preventDefault();
 
         // Validate the inputs
-        if (nombre.trim() === '') {
+        if (name.trim() === '') {
             showError();
             return;
         }
@@ -37,7 +37,7 @@ const NewProject = () => {
 
         // Reset the form
         saveProject({
-            nombre: ''
+            name: ''
         })
 
 
@@ -67,9 +67,9 @@ const NewProject = () => {
                         <input 
                             type="text"
                             className="input-text"
-                            placeholder="Nombre del proyecto"
-                            name="nombre"
-                            value={nombre}
+                            placeholder="Project name"
+                            name="name"
+                            value={name}
                             onChange={onChangeProject}
                         />
         
@@ -77,7 +77,7 @@ const NewProject = () => {
                         <input 
                             type="submit" 
                             className="btn btn-primario btn-block"
-                            value="Agregar proyecto"
+                            value="Add project"
         
                         />
                     </form>
@@ -85,7 +85,7 @@ const NewProject = () => {
                  : null
             }
 
-            { errorForm ? <p className="mensaje error"> El nombre del proyecto es obligatorio </p> : null }
+            { errorForm ? <p className="mensaje error"> The project name it's required </p> : null }
         </Fragment>    
 
     );

@@ -11,11 +11,9 @@ const Project = ({ project }) => {
     const projectContext = useContext(ProjectContext);
     const { selectProject } = projectContext;
 
-
     // get tasks state
     const taskContext = useContext(TaskContext);
     const { getTasks } = taskContext;
-
 
     // Function to add the actual project
     const selectActualProject = (id) => {
@@ -28,9 +26,9 @@ const Project = ({ project }) => {
             <button
                 type="button"
                 className="btn btn-blank"
-                onClick={ () => selectActualProject(project.id) }
+                onClick={ () => selectActualProject(project._id) }
             >
-            {project.nombre}
+             {project.name}
             </button>
         </li>
     );

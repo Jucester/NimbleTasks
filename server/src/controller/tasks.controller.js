@@ -48,7 +48,7 @@ controller.getTasksPerProject = async (req, res, next) =>{
 
     try {
         // Extract the project 
-        const { project } = req.body;
+        const { project } = req.query;
 
         const projectConfirm = await Project.findById(project);
         if(!projectConfirm) {
@@ -89,6 +89,7 @@ controller.updateTask = async (req, res, next) => {
     try {
         // Extract the project 
         const { project, name, state } = req.body;
+        console.log(req.body);
         const { id } = req.params;
 
         // Check if the task exists
@@ -109,20 +110,17 @@ controller.updateTask = async (req, res, next) => {
 
         // Create object with new information
         const newTask = {};
-
-        if(name) {
-            newTask.name = name;
-        } 
-        if(state) {
-            newTask.state = state;
-        }
+        newTask.name = name;
+        newTask.state = state;
         
+        console.log('New Task: ', newTask.state);
+
         // Save task
-        task = await Task.findOneAndUpdate({_id : id }, newTask, { new : true });
+        task = await Task.findOneAndUpdate({ _id : id }, newTask, { new : true });
 
         res.status(200).json({
             msg: 'Updated succesfully',
-            data: task
+            task: task
         })
 
     } catch (error) {
@@ -135,7 +133,7 @@ controller.updateTask = async (req, res, next) => {
 controller.deleteTask = async (req, res, next) => {
     try {
         // Extract the project 
-        const { project } = req.body;
+        const { project } = req.query;
         const { id } = req.params;
 
         // Check if the task exists

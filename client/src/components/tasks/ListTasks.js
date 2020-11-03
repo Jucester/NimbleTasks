@@ -14,22 +14,20 @@ const ListTasks = () => {
     const taskContext = useContext(TaskContext);
     const { taskProject } = taskContext;
 
-    
-     
+
     // Verify if theres a project selected
     if(!project) return <h1> Select a project </h1>
 
     const [actual] = project;
   
     const onClickDelete = () => {
-        deleteProject(project[0].id);
-
+        deleteProject(project[0]._id);
     }
 
     return (  
         <Fragment>
 
-            <h2> Project: {actual.nombre} </h2>
+            <h2> Project: {actual.name} </h2>
    
             <ul>
                 {taskProject.length === 0 
@@ -38,7 +36,7 @@ const ListTasks = () => {
                     <TransitionGroup>
                             {taskProject.map(task=> (
                                 <CSSTransition
-                                    key={task.id}
+                                    key={task._id}
                                     timeout={500}
                                     classNames="tarea"
                                 >

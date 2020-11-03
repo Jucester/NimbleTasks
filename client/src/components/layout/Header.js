@@ -9,6 +9,7 @@ const Header = () => {
 
     useEffect( () => {
         authenticatedUser();
+         // eslint-disable-next-line
     }, [])
 
 

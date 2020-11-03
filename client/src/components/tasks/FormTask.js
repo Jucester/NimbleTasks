@@ -19,7 +19,7 @@ const FormTask = () => {
                 saveTask(selectedTask);
         } else {
             saveTask({
-                    nombre: ''
+                name: ''
             })
         }
             
@@ -27,7 +27,7 @@ const FormTask = () => {
 
     // form state
     const [ task, saveTask ] = useState({
-        nombre: ''
+        name: ''
     });
     
 
@@ -37,8 +37,7 @@ const FormTask = () => {
     // Array destructuring the task state from context
     const [actual] = project;
 
-
-    const { nombre } = task;
+    const { name } = task;
 
     // Save task on state
     const handleChange = e => {
@@ -53,19 +52,17 @@ const FormTask = () => {
         e.preventDefault();
 
         // Validate
-        if (nombre.trim() === '') {
+        if (name.trim() === '') {
             validateTask();
             return;
         }
         
-
         // Check if is edit or new task
         if(selectedTask === null) {
             // Pass validation
             validateTask();
             // Add task to the task state
-            task.projectId = actual.id;
-            task.estado = false;
+            task.project = actual._id;
             addTask(task);
 
         } else {
@@ -80,13 +77,9 @@ const FormTask = () => {
 
         // Reset the form
         saveTask({
-               nombre: ''
+            name: ''
         })
-
-        
     }
-
-    
 
     return (  
         <div className="formulario">
@@ -98,8 +91,8 @@ const FormTask = () => {
                         type="text"
                         className="input-text"
                         placeholder="Name task..."
-                        name="nombre"
-                        value={ nombre }
+                        name="name"
+                        value={ name }
                         onChange={handleChange}
                     />
                 </div>

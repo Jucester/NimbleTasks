@@ -15,7 +15,7 @@ controller.getProjects = async (req, res, next) => {
        } else {
            res.status(200).json({
                msg: 'Received',
-               data: projects
+               projects: projects
            })
        }
 
@@ -28,7 +28,6 @@ controller.getProjects = async (req, res, next) => {
 }
 controller.createProject = async (req, res, next) => {
     // Check for errors
-      
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
           return res.status(400).json({ errors: errors.array() })
