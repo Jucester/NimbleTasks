@@ -1,20 +1,25 @@
 import React, { Fragment } from 'react';
 import { Link } from 'react-router-dom';
-//import image from './undraw_project_team_lc5a.svg';
-import './Home.css';
+import image from './undraw_project_team_lc5a.svg';
+import Nav from '../nav/Nav';
 
 const Home = () => {
     return ( 
         <Fragment>
-           <div className="hero">
-                <div className="texts">
-                    <h1> Agile Tasks </h1>
-                    <p> Manage projects and create tasks faster and easy </p>
-                </div>
+            <Nav />
+            <div className="hero">
+                <div className="contenido-header">
+                    <section className="textos">
+                        <h1> The Easy Project Management Tool </h1>
+                        <p> Manage projects, create tasks, comunicate with your teammates, track time, and work faster. </p>
+                        <div className="links">
+                            <Link to={'/login'} className="link"> Login </Link>
+                            <Link to={'/singup'} className="link"> Sing Up </Link>
+                        </div>
+                    </section>
 
-                <div className="links">
-                    <Link to={'/login'} className="btn btn-primario link"> Login </Link>
-                    <Link to={'/singup'} className="btn btn-primario link"> Sing Up </Link>
+                    <img src={image} alt="Team Illustration" />
+
                 </div>
            </div>
         </Fragment>
