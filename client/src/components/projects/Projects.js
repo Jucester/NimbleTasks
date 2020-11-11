@@ -4,7 +4,7 @@ import Header from '../layout/Header';
 import FormTask from '../tasks/FormTask';
 import ListTasks from '../tasks/ListTasks';
 import AuthContext from '../../context/authentication/authContext';
-//import ListMembers from '../members/ListMembers';
+import ListMembers from '../members/ListMembers';
 
 
 const Projects = () => {
@@ -29,11 +29,11 @@ const Projects = () => {
                     <FormTask />
 
                 
-                    <div className="contenedor-tareas">
+                    <div className="contenedor-project">
 
-                       
+                        <ListMembers />
                         <ListTasks />
-                       
+
                     </div>
 
                 </main>

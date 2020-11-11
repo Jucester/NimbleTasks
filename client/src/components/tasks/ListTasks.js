@@ -1,4 +1,4 @@
-import React, { Fragment, useContext } from 'react';
+import React, { useContext } from 'react';
 import Task from './Task';
 import ProjectContext from '../../context/projects/projectContext';
 import TaskContext from '../../context/tasks/taskContext';
@@ -25,7 +25,7 @@ const ListTasks = () => {
     }
 
     return (  
-        <Fragment>
+        <div class="campo-project">
 
             <h2> Project: {actual.name} </h2>
    
@@ -55,7 +55,7 @@ const ListTasks = () => {
             </ul>
 
           
-        </Fragment>
+        </div>
 
     );
 }

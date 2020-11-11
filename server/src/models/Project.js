@@ -10,6 +10,16 @@ const ProjectSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'
     }, 
+    inviteKey: {
+        type: String,
+        default: null
+    },
+    members: [
+        {
+            memberId: String,
+            role: String
+        }
+    ],
     createdAt: {
         type: Date,
         default: Date.now()

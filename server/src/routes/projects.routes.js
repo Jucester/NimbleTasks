@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const { check } = require('express-validator');
 
-const { createProject, getProjects, editProject, deleteProject } = require('../controller/projects.controller');
+const { createProject, getProjects, editProject, deleteProject, invite, acceptInvitation } = require('../controller/projects.controller');
 const auth = require('../middlewares/auth');
 
 // /api/projects
@@ -24,10 +24,25 @@ router.put('/:id',
     ],
     editProject
 )
-
 router.delete('/:id',
     auth,
     deleteProject
+)
+
+router.get('/invite/:id', 
+    auth,
+    [
+        check('name', 'The project name it\'s required').not().isEmpty()    
+    ],
+    invite
+)
+
+router.post('/invite/:id',
+    auth,
+    [
+        check('name', 'The project name it\'s required').not().isEmpty()    
+    ],
+    acceptInvitation
 )
 
 module.exports = router;

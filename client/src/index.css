@@ -260,14 +260,12 @@ aside  {
 }
 
 /** TAREAS LISTADO **/
-.contenedor-tareas {
-  /*
+.contenedor-project {
   display: flex;
   justify-content: space-around;
-  align-items: center; */
+  align-items: center; 
   padding: 4rem;
 }
-
 
 
 .listado-tareas {

@@ -20,7 +20,13 @@ const UserSchema = mongoose.Schema({
     registered: {
         type: Date,
         default: Date.now()
-    }
+    },
+    projects: [
+        {
+            projectId: String,
+            role: String
+        }
+    ]
 });
 
 

@@ -53,10 +53,7 @@ controller.loginUser = async (req, res, next) => {
                 msg: 'Login successful',
                 token: token
             })
-
         });
-
-
     } catch (error) {
         console.error(error);
         res.status(500).json({

@@ -3,7 +3,10 @@ import React from 'react';
 const Member = ({member}) => {
     return (  
 
-        <p> Member </p>
+        <div class="members-list">
+            <p> {member.name} </p>
+            <p> {member.role} </p>
+        </div>
     );
 }
  

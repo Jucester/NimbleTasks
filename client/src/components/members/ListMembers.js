@@ -1,16 +1,16 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import Member from './Member';
 
 const ListMembers = () => {
     
     const members = [
-        { nombre: 'Miguel', role: 'Project Manager'},
-        { nombre: 'Juan', role: 'Developer'},
-        { nombre: 'David', role: 'Guest'},
+        { name: 'Miguel', role: 'Project Manager'},
+        { name: 'Juan', role: 'Developer'},
+        { name: 'David', role: 'Guest'},
     ]
     
     return (  
-        <Fragment>
+        <div class="campo-project">
                 <h2> Project Members </h2>
                 <ul>
                     {members.length === 0 
@@ -21,7 +21,7 @@ const ListMembers = () => {
                     }
                 </ul>
 
-        </Fragment>
+        </div>
 
         
     );

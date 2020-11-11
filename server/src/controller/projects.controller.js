@@ -1,5 +1,8 @@
 const Project = require('../models/Project');
+const User = require('../models/User');
+
 const { validationResult } = require('express-validator');
+const crypto = require('crypto');
 const controller = {}
 
 controller.getProjects = async (req, res, next) => {
@@ -40,6 +43,11 @@ controller.createProject = async (req, res, next) => {
         const project = new Project({ name });
         // save creator with JWT
         project.creator = req.user.id;
+    
+        project.members.push({
+            memberId: req.user.id,
+            role: 'Admin'
+        });
         // save project in DB
         project.save();
         res.status(200).json({
@@ -138,6 +146,73 @@ controller.deleteProject = async (req, res, next) => {
         })
     }
 
+
+}
+
+controller.invite = async (req, res, next) => {
+    console.log("Accessing")
+
+    await crypto.randomBytes(48, async function(err, buffer){
+
+        try {
+            console.log("Generating")
+            let inviteKey = buffer.toString('base64');
+            await Project.findByIdAndUpdate(req.params.id, { inviteKey });
+
+            console.log("Key: ", inviteKey);
+            res.status(200).json(
+                {
+                    msg: 'Invite Key Generated',
+                    key: inviteKey
+                }
+            )
+        } catch(error) {
+            console.error(error);
+            res.status(500).json({
+                msg: 'Something went wrong'
+            })
+        }
+    })
+
+}
+
+controller.acceptInvitation = async (req, res, next) => {
+
+    console.log('Invite key: ', req.body.inviteKey);
+    console.log('User: ', req.user.id);
+
+
+
+    //  "inviteKey": "cLOYN5rVPLv0/yTIJi3PmpmxSPlfYbek2//fOWAhaSedR7C+WFQUvRuYBg2nHOBq",
+
+    const project = await Project.findOneAndUpdate(
+        {
+            inviteKey: req.body.inviteKey
+        },
+        {
+            $push: {
+                members: {
+                    memberId: req.user.id,
+                    role: 'guest'
+                }
+            }
+        }
+    );
+
+    await User.findByIdAndUpdate(req.user.id, 
+        { 
+            $push: {
+                projects: {
+                    projectId: project._id,
+                    role: 'guest'
+                }
+        }
+    });
+
+    res.status(200).json({
+        msg: 'Joined to the project successfully',
+        project: project,
+    }) 
 
 }
 
